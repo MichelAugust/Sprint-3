@@ -1,0 +1,204 @@
+openapi: 3.0.1
+info:
+  title: API de estados e capital do Brasil
+  description: Api para filtrar os estados por região, ordenar os estados com maior população, ordenar os estados com a maior área.
+  version: 0.0.1
+  contact:
+    name: Api Brasil
+    email: contato@example.com
+  license:
+    name: "Lincença: GPLv3"
+    url: https://www.gnu.org/licenses/gpl-3.0.html
+servers:
+- url: http://localhost:8080/h2-console
+  description: API
+paths:
+  /api/states/{id}:
+    get:
+      tags:
+        - estados-controller
+      operationId: detalhar
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EstadoDto'
+    put:
+      tags:
+        - estados-controller
+      operationId: atualizar
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AtualizacaoEstadoForm'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EstadoDto'
+    delete:
+      tags:
+        - estados-controller
+      operationId: deletar
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+  /api/states:
+    get:
+      tags:
+        - estados-controller
+      operationId: listar
+      parameters:
+        - name: regiao
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - Norte
+              - Nordeste
+              - Sul
+              - Sudeste
+              - Centro_Oeste
+        - name: ordenar
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EstadoDto'
+    post:
+      tags:
+        - estados-controller
+      operationId: cadastrar
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EstadoForm'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EstadoDto'
+components:
+  schemas:
+    AtualizacaoEstadoForm:
+      required:
+        - area
+        - capital
+        - nome
+        - populacao
+        - regiao
+      type: object
+      properties:
+        nome:
+          type: string
+        regiao:
+          type: string
+          enum:
+            - Norte
+            - Nordeste
+            - Sul
+            - Sudeste
+            - Centro_Oeste
+        populacao:
+          type: integer
+          format: int64
+        capital:
+          type: string
+        area:
+          type: integer
+          format: int64
+    EstadoDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        nome:
+          type: string
+        regiao:
+          type: string
+          enum:
+            - Norte
+            - Nordeste
+            - Sul
+            - Sudeste
+            - Centro_Oeste
+        populacao:
+          type: integer
+          format: int64
+        capital:
+          type: string
+        area:
+          type: integer
+          format: int64
+    EstadoForm:
+      required:
+        - area
+        - capital
+        - nome
+        - populacao
+        - regiao
+      type: object
+      properties:
+        nome:
+          type: string
+        regiao:
+          type: string
+          enum:
+            - Norte
+            - Nordeste
+            - Sul
+            - Sudeste
+            - Centro_Oeste
+        populacao:
+          type: integer
+          format: int64
+        capital:
+          type: string
+        area:
+          type: integer
+          format: int64
