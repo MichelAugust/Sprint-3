@@ -1,4 +1,4 @@
-![texto](https://github.com/MichelAugust/Projeto/blob/master/imagem/logo%20compass.png.png?raw=true) 
+![texto](https://github.com/MichelAugust/Sprint1/raw/master/logo/logo.png) 
 
 
 <h1 align="center">Avaliação 3 – 2022 – Springboot – Compass.uol</h1>
